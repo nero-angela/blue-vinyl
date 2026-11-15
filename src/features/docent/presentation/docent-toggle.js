@@ -1,21 +1,21 @@
 import { ControlIcon, createControlIcon } from '../../controls/presentation/control-icons.js';
 
 /**
- * A glass segment that turns the docent on and off. It starts off, its speech bubble struck through. Returns
- * `toggle`, to turn it from elsewhere (a key) as a click does.
+ * A glass segment that turns the docent on and off. It starts as `on` says; off, its speech bubble is struck through.
+ * Returns `toggle`, to turn it from elsewhere (a key) as a click does.
  *
  * @param {HTMLElement} parent a glass capsule
- * @param {{ onChange: (on: boolean) => void }} options
+ * @param {{ on: boolean, onChange: (on: boolean) => void }} options
  * @returns {{ toggle: () => void }}
  */
-export function createDocentToggle(parent, { onChange }) {
+export function createDocentToggle(parent, { on: initial, onChange }) {
   const button = document.createElement('button');
   button.type = 'button';
   button.className = 'glass-segment';
   // A toggle button: its name stays, its pressed state says whether the docent is on.
   button.setAttribute('aria-label', 'Docent');
   button.setAttribute('aria-keyshortcuts', 'D');
-  let on = false;
+  let on = initial;
 
   function render() {
     button.replaceChildren(createControlIcon(on ? ControlIcon.DOCENT : ControlIcon.DOCENT_OFF));

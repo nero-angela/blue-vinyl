@@ -245,7 +245,9 @@ const albumSwitcher = createAlbumSwitcher(albumControls, {
   onPrevious: () => switchAlbum(-1),
   onNext: () => switchAlbum(1),
 });
-// The docent, off until turned on: the cat says the current album's introduction (see showAlbum).
+// Whether the docent is on when the page opens.
+const DOCENT_ON_AT_START = true;
+// The docent, on from the start (DOCENT_ON_AT_START) until turned off: the cat says the current album's introduction (see showAlbum).
 // The bubble keeps clear of the globe on the record's label, and points at the cat.
 const docentBubble = createDocentBubble(slot('screen'), {
   avoid: () => {
@@ -255,7 +257,10 @@ const docentBubble = createDocentBubble(slot('screen'), {
   speaker: () => catCheek(screenSpace.rectOf),
 });
 const docentNarrator = createDocentNarrator(docentVoice, docentBubble);
-const docentToggle = createDocentToggle(createGlassCapsule(slot('corner-bottom-left'), { label: 'Docent' }), { onChange: setDocent });
+const docentToggle = createDocentToggle(createGlassCapsule(slot('corner-bottom-left'), { label: 'Docent' }), {
+  on: DOCENT_ON_AT_START,
+  onChange: setDocent,
+});
 const viewControls = createGlassCapsule(slot('corner-top-right'), { label: 'View' });
 createFullscreenButton(viewControls);
 const aboutDialog = createInfoDialog(slot('screen'), {
@@ -1302,4 +1307,5 @@ function tick(ts) {
 }
 
 showAlbum(albumIndex);
+setDocent(DOCENT_ON_AT_START);
 setState(PlaybackState.STOPPED);
